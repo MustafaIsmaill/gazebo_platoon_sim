@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>dataspeed_dbw_gazebo_demo</name>
+  <version>2.3.0</version>
+  <description>
+    Demonstration applications for dataspeed_dbw_simulator
+  </description>
+
+  <license>Proprietary</license>
+  <author email="mradovnikovich@dataspeedinc.com">Micho Radovnikovich</author>
+  <maintainer email="mradovnikovich@dataspeedinc.com">Micho Radovnikovich</maintainer>
+  <url type="website">http://dataspeedinc.com</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>dbw_mkz_msgs</depend>
+  <depend>image_transport</depend>
+  <depend>image_geometry</depend>
+  <depend>cv_bridge</depend>
+  <depend>tf</depend>
+  <depend>nodelet</depend>
+  <depend>pcl_ros</depend>
+
+  <exec_depend>image_proc</exec_depend>
+  <exec_depend>rviz</exec_depend>
+  <exec_depend>dataspeed_dbw_gazebo</exec_depend>
+  <exec_depend>dataspeed_dbw_gazebo_plugins</exec_depend>
+  <exec_depend>dbw_mkz_can</exec_depend>
+  <exec_depend>dbw_fca_can</exec_depend>
+  <exec_depend>rostopic</exec_depend>
+  <exec_depend>joy</exec_depend>
+  <exec_depend>dbw_mkz_joystick_demo</exec_depend>
+
+  <export>
+    <nodelet plugin="${prefix}/nodelets.xml" />
+  </export>
+
+</package>

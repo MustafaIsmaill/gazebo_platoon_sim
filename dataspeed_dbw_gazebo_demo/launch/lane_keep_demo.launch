@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <arg name="model" default="pacifica" />
+
+  <!-- Launch simulator and load vehicle model -->
+  <include file="$(find dataspeed_dbw_gazebo)/launch/dataspeed_dbw_gazebo.launch" >
+    <arg name="use_camera_control" value="false" />
+    <arg name="world_name" value="$(find dataspeed_dbw_gazebo)/worlds/test_track.world" />
+    <arg name="sim_param_file" value="$(find dataspeed_dbw_gazebo)/yaml/$(arg model)_test_track.yaml" />
+  </include>
+
+  <!-- Bring up image processing pipeline -->
+  <include file="$(find dataspeed_dbw_gazebo_demo)/launch/lane_detection.launch" />
+
+  <!-- Lane following node -->
+  <node pkg="dataspeed_dbw_gazebo_demo" type="dataspeed_dbw_gazebo_demo_path_following_node" name="path_following" >
+    <remap from="ulc_report" to="/vehicle/ulc_report" />
+    <remap from="ulc_cmd" to="/vehicle/ulc_cmd" />
+  </node>
+
+  <!-- ROS Driver for ADAS Kit -->
+  <include file="$(find dataspeed_dbw_gazebo_demo)/launch/generic_dbw.launch" >
+    <arg name="vehicle_name" value="vehicle" />
+    <arg name="vehicle_type" value="$(arg model)" />
+  </include>
+
+  <!-- Enable drive-by-wire control -->
+  <node pkg="rostopic" type="rostopic" name="enable_dbw" args="pub /vehicle/enable std_msgs/Empty -1" output="screen" />
+
+</launch>

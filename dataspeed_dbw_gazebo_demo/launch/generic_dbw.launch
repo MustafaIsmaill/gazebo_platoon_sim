@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <arg name="vehicle_name" default="vehicle" />
+  <arg name="vehicle_type" default="mkz" />
+  <include unless="$(eval vehicle_type=='jeep' or vehicle_type=='pacifica')" file="$(find dbw_mkz_can)/launch/dbw.launch" >
+    <arg name="live" value="false" />
+    <arg name="load_urdf" value="false" />
+    <arg name="can_ns" value="can_bus_dbw" />
+    <arg name="vehicle_ns" value="$(arg vehicle_name)" />
+    <arg if="$(eval vehicle_type=='f150')" name="ackermann_wheelbase" value="3.67" />
+    <arg if="$(eval vehicle_type=='f150')" name="steering_ratio" value="18.0" />
+    <arg if="$(eval vehicle_type=='mkz' or vehicle_type=='fusion' or vehicle_type=='mondeo')" name="ackermann_wheelbase" value="2.85" />
+    <arg if="$(eval vehicle_type=='mkz' or vehicle_type=='fusion' or vehicle_type=='mondeo')" name="steering_ratio" value="14.8" />
+  </include>
+  <include if="$(eval vehicle_type=='jeep' or vehicle_type=='pacifica')" file="$(find dbw_fca_can)/launch/dbw.launch" >
+    <arg name="live" value="false" />
+    <arg name="load_urdf" value="false" />
+    <arg name="can_ns" value="can_bus_dbw" />
+    <arg name="vehicle_ns" value="$(arg vehicle_name)" />
+    <arg if="$(eval vehicle_type=='jeep')" name="ackermann_wheelbase" value="2.91" />
+    <arg if="$(eval vehicle_type=='jeep')" name="steering_ratio" value="15.15" />
+    <arg if="$(eval vehicle_type=='pacifica')" name="ackermann_wheelbase" value="3.08" />
+    <arg if="$(eval vehicle_type=='pacifica')" name="steering_ratio" value="16.2" />
+  </include>
+
+</launch>

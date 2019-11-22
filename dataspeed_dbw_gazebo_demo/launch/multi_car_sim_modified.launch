@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <include file="$(find dataspeed_dbw_gazebo)/launch/dataspeed_dbw_gazebo.launch" >
+    <arg name="use_camera_control" value="false" />
+    <arg name="world_name" value="$(find dataspeed_dbw_gazebo)/worlds/test_track.world" />
+    <arg name="sim_param_file" value="$(find dataspeed_dbw_gazebo)/yaml/multi_car_modified.yaml" />
+  </include>
+
+  <include file="$(find dataspeed_dbw_gazebo_demo)/launch/generic_dbw.launch" >
+    <arg name="vehicle_name" value="fusion1" />
+    <arg name="vehicle_type" value="fusion1" />
+  </include>
+  <node ns="fusion1" pkg="rostopic" type="rostopic" name="enable_pub_1" args="pub enable std_msgs/Empty" />
+  <node ns="fusion1" pkg="path_following_gazebo" type="path_publisher.py" name="path_publisher_1" output="screen"/>
+  <node ns="fusion1" pkg="path_following_gazebo" type="fix_gps.py" name="fix_gps_1" output="screen"/>
+  <node ns="fusion1" pkg="pure_pursuit" type="pure_pursuit" name="pure_pursuit_control_1" output="screen">
+    <param name="robot_frame" value="fs1/base_footprint" />
+  </node>
+
+  <include file="$(find dataspeed_dbw_gazebo_demo)/launch/generic_dbw.launch" >
+    <arg name="vehicle_name" value="fusion2" />
+    <arg name="vehicle_type" value="fusion2" />
+  </include>
+  <node ns="fusion2" pkg="rostopic" type="rostopic" name="enable_pub_2" args="pub enable std_msgs/Empty" />
+  <node ns="fusion2" pkg="path_following_gazebo" type="path_publisher.py" name="path_publisher_2" output="screen"/>
+  <node ns="fusion2" pkg="path_following_gazebo" type="fix_gps.py" name="fix_gps_2" output="screen"/>
+  <node ns="fusion2" pkg="pure_pursuit" type="pure_pursuit" name="pure_pursuit_control_2" output="screen">
+    <param name="robot_frame" value="fs2/base_footprint" />
+  </node>
+
+  <include file="$(find dataspeed_dbw_gazebo_demo)/launch/generic_dbw.launch" >
+    <arg name="vehicle_name" value="fusion3" />
+    <arg name="vehicle_type" value="fusion3" />
+  </include>
+  <node ns="fusion3" pkg="rostopic" type="rostopic" name="enable_pub_3" args="pub enable std_msgs/Empty" />
+  <node ns="fusion3" pkg="path_following_gazebo" type="path_publisher.py" name="path_publisher_3" output="screen"/>
+  <node ns="fusion3" pkg="path_following_gazebo" type="fix_gps.py" name="fix_gps_3" output="screen"/>
+  <node ns="fusion3" pkg="pure_pursuit" type="pure_pursuit" name="pure_pursuit_control_3" output="screen">
+    <param name="robot_frame" value="fs3/base_footprint" />
+  </node>
+
+</launch>

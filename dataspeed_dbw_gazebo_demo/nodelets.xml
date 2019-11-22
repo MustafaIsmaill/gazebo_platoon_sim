@@ -1,0 +1,23 @@
+<library path="lib/libdataspeed_dbw_gazebo_demo" >
+  <class name="dataspeed_dbw_gazebo_demo/LaneDetectionNodelet"
+         type="dataspeed_dbw_gazebo_demo::LaneDetectionNodelet"
+         base_class_type="nodelet::Nodelet">
+    <description>
+      Detection of white and yellow lines in Gazebo
+    </description>
+  </class>
+  <class name="dataspeed_dbw_gazebo_demo/LaneFitNodelet"
+         type="dataspeed_dbw_gazebo_demo::LaneFitNodelet"
+         base_class_type="nodelet::Nodelet">
+    <description>
+      Fitting detected lines to Bezier curves
+    </description>
+  </class>
+  <class name="dataspeed_dbw_gazebo_demo/LanePlannerNodelet"
+         type="dataspeed_dbw_gazebo_demo::LanePlannerNodelet"
+         base_class_type="nodelet::Nodelet">
+    <description>
+      Processing Bezier curves to generate a path for car to follow
+    </description>
+  </class>
+</library>

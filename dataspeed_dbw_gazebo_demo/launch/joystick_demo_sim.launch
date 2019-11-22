@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <arg name="model" default="mkz" />
+
+  <include file="$(find dataspeed_dbw_gazebo)/launch/dataspeed_dbw_gazebo.launch" >
+    <arg name="use_camera_control" value="true" />
+    <arg name="world_name" value="$(find dataspeed_dbw_gazebo)/worlds/box_world.world" />
+    <arg name="sim_param_file" value="$(find dataspeed_dbw_gazebo)/yaml/$(arg model)_joystick.yaml" />
+  </include>
+
+  <param name="/gazebo_cam_control/first_person" value="false" />
+
+  <arg name="dev" default="/dev/input/js0" />
+  <include unless="$(eval model=='jeep' or model=='pacifica')" file="$(find dbw_mkz_joystick_demo)/launch/joystick_demo.launch" >
+    <arg name="dev" value="$(arg dev)" />
+  </include>
+  <include if="$(eval model=='jeep' or model=='pacifica')" file="$(find dbw_fca_joystick_demo)/launch/joystick_demo.launch" >
+    <arg name="dev" value="$(arg dev)" />
+  </include>
+
+  <include file="$(find dataspeed_dbw_gazebo_demo)/launch/generic_dbw.launch" >
+    <arg name="vehicle_name" value="vehicle" />
+    <arg name="vehicle_type" value="$(arg model)" />
+  </include>
+
+</launch>

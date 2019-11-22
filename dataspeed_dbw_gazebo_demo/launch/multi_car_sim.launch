@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <include file="$(find dataspeed_dbw_gazebo)/launch/dataspeed_dbw_gazebo.launch" >
+    <arg name="use_camera_control" value="false" />
+    <arg name="world_name" value="$(find dataspeed_dbw_gazebo)/worlds/multi_car_world.world" />
+    <arg name="sim_param_file" value="$(find dataspeed_dbw_gazebo)/yaml/multi_car.yaml" />
+  </include>
+
+  <include file="$(find dataspeed_dbw_gazebo_demo)/launch/generic_dbw.launch" >
+    <arg name="vehicle_name" value="pacifica" />
+    <arg name="vehicle_type" value="pacifica" />
+  </include>
+  <node ns="pacifica" pkg="rostopic" type="rostopic" name="twist_pub" args="pub cmd_vel geometry_msgs/Twist '{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: -0.25}}' -r 50" />
+  <node ns="pacifica" pkg="rostopic" type="rostopic" name="enable_pub" args="pub enable std_msgs/Empty" />
+
+  <include file="$(find dataspeed_dbw_gazebo_demo)/launch/generic_dbw.launch" >
+    <arg name="vehicle_name" value="fusion" />
+    <arg name="vehicle_type" value="fusion" />
+  </include>
+  <node ns="fusion" pkg="rostopic" type="rostopic" name="twist_pub" args="pub cmd_vel geometry_msgs/Twist '{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.25}}' -r 50" />
+  <node ns="fusion" pkg="rostopic" type="rostopic" name="enable_pub" args="pub enable std_msgs/Empty" />
+
+  <!-- <node pkg="rviz" type="rviz" name="multi_car_rviz" args="-d $(find dataspeed_dbw_gazebo_demo)/rviz/multi_car.rviz" respawn="true" /> -->
+
+</launch>

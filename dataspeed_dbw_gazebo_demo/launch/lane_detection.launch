@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<launch>
+
+  <arg name="nodelet" default="true" />
+  <arg name="manager" default="vision_pipeline_manager" />
+
+  <group if="$(arg nodelet)" >
+    <include ns="front_camera" file="$(find image_proc)/launch/image_proc.launch" >
+      <arg name="manager" value="/$(arg manager)" />
+      <arg name="respawn" value="true" />
+    </include>
+    <node pkg="nodelet" type="nodelet" name="$(arg manager)" args="manager" />
+    <node pkg="nodelet" type="nodelet" name="lane_detection" args="load dataspeed_dbw_gazebo_demo/LaneDetectionNodelet /$(arg manager)" />
+    <node pkg="nodelet" type="nodelet" name="lane_fit" args="load dataspeed_dbw_gazebo_demo/LaneFitNodelet /$(arg manager)" />
+    <node pkg="nodelet" type="nodelet" name="lane_planner" args="load dataspeed_dbw_gazebo_demo/LanePlannerNodelet /$(arg manager)" />
+  </group>
+
+  <group unless="$(arg nodelet)" >
+    <node ns="vehicle/front_camera" pkg="image_proc" type="image_proc" name="image_proc" />
+    <node pkg="dataspeed_dbw_gazebo_demo" type="dataspeed_dbw_gazebo_demo_lane_detection_node" name="lane_detection" output="screen" />
+    <node pkg="dataspeed_dbw_gazebo_demo" type="dataspeed_dbw_gazebo_demo_lane_fit_node" name="lane_fit" output="screen" />
+    <node pkg="dataspeed_dbw_gazebo_demo" type="dataspeed_dbw_gazebo_demo_lane_planner_node" name="lane_planner" output="screen" />
+  </group>
+
+  <!-- <node pkg="rviz" type="rviz" name="lane_detection_rviz" args="-d $(find dataspeed_dbw_gazebo_demo)/rviz/lane_detection.rviz" respawn="true" /> -->
+
+</launch>
